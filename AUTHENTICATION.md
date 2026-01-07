@@ -31,3 +31,46 @@ blackbox
 ```
 
 You may be prompted to enter your API key or log in via a browser/dashboard URL.
+
+## Claude Code
+
+To authenticate Claude Code, usually you need to login via the browser flow that the CLI initiates, or set the API key.
+
+```bash
+claude login
+```
+or
+```bash
+export ANTHROPIC_API_KEY=your_key_here
+```
+
+## Gemini CLI
+
+To authenticate Gemini CLI, use the login command or set the API key environment variable.
+
+```bash
+gemini login
+```
+or
+```bash
+export GEMINI_API_KEY=your_key_here
+```
+(Check `gemini --help` for specific env var names if different, e.g. `GOOGLE_API_KEY`).
+
+## Qwen Code
+
+To authenticate Qwen Code:
+
+```bash
+qwen login
+```
+or check documentation for environment variables (e.g. `DASHSCOPE_API_KEY`).
+
+## Qoder
+
+To authenticate Qoder:
+
+```bash
+qoder login
+```
+or follow the instructions provided by the tool upon first run.
