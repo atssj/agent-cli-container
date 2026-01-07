@@ -7,6 +7,10 @@ usage() {
     echo "  kilo     - Set Kilo Code as default (kilocode)"
     echo "  cline    - Set Cline as default (cline)"
     echo "  blackbox - Set Blackbox as default (blackbox)"
+    echo "  claude   - Set Claude Code as default (claude)"
+    echo "  gemini   - Set Gemini CLI as default (gemini)"
+    echo "  qwen     - Set Qwen Code as default (qwen)"
+    echo "  qoder    - Set Qoder as default (qoder)"
     exit 1
 }
 
@@ -30,6 +34,22 @@ case $TOOL in
     blackbox)
         BINARY_PATH=$(which blackbox)
         TOOL_NAME="Blackbox"
+        ;;
+    claude)
+        BINARY_PATH=$(which claude)
+        TOOL_NAME="Claude Code"
+        ;;
+    gemini)
+        BINARY_PATH=$(which gemini)
+        TOOL_NAME="Gemini CLI"
+        ;;
+    qwen)
+        BINARY_PATH=$(which qwen)
+        TOOL_NAME="Qwen Code"
+        ;;
+    qoder)
+        BINARY_PATH=$(which qoder)
+        TOOL_NAME="Qoder"
         ;;
     *)
         echo "Error: Unknown tool '$TOOL'"
