@@ -32,6 +32,9 @@ RUN ln -s /usr/local/bin/bun /usr/local/bin/node
 RUN bun install -g @anthropic-ai/claude-code
 RUN bun install -g @google/gemini-cli
 RUN bun install -g @qwen-code/qwen-code
+RUN bun install -g @kilocode/cli
+RUN bun install -g cline
+RUN bun install -g @blackbox_ai/blackbox-cli
 
 # Install Qoder CLI
 # The official script installs to ~/.qoder. We'll install it and move it to global path.
@@ -49,6 +52,13 @@ RUN chmod +x /usr/local/bin/qoder
 
 # Clean up
 RUN rm install_qoder.sh && rm -rf /root/.qoder
+
+# Add set-ai-cli script
+COPY set-ai-cli.sh /usr/local/bin/set-ai-cli
+RUN chmod +x /usr/local/bin/set-ai-cli
+
+# Add Authentication instructions
+COPY AUTHENTICATION.md /home/dev/AUTHENTICATION.md
 
 # Set up user environment
 USER dev
