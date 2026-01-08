@@ -74,3 +74,13 @@ To authenticate Qoder:
 qoder login
 ```
 or follow the instructions provided by the tool upon first run.
+
+## Atlassian CLI (acli)
+
+To authenticate Atlassian CLI, you usually need to create a profile with your site URL and an API token.
+
+```bash
+acli login
+```
+Follow the interactive prompts or use the `acli profile` commands to manage multiple configurations.
+For more details, visit: https://acli.atlassian.com/
