@@ -4,8 +4,11 @@ FROM ubuntu:24.04
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive
 ENV BUN_INSTALL=/usr/local
+ENV PIPX_HOME=/usr/local/pipx
+ENV PIPX_BIN_DIR=/usr/local/bin
 
 # Install system dependencies
+# Added pipx for safe python tool installation
 RUN apt-get update && apt-get install -y \
     curl \
     git \
@@ -18,6 +21,7 @@ RUN apt-get update && apt-get install -y \
     wget \
     gnupg2 \
     python3-pip \
+    pipx \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Bun
@@ -32,8 +36,9 @@ RUN mkdir -p -m 755 /etc/apt/keyrings && \
     apt-get install -y acli && \
     rm -rf /var/lib/apt/lists/*
 
-# Install OpenAI CLI (formerly Codex)
-RUN pip3 install --break-system-packages openai
+# Install OpenAI CLI safely using pipx
+# This installs the 'openai' package into an isolated environment and exposes the binary
+RUN pipx install openai
 
 # Create 'dev' user with sudo access
 RUN useradd -m -s /bin/bash dev && \
@@ -42,14 +47,15 @@ RUN useradd -m -s /bin/bash dev && \
 # Symlink bun to node for compatibility
 RUN ln -s /usr/local/bin/bun /usr/local/bin/node
 
-# Install Global CLIs using Bun
+# Install Global CLIs using Bun (Pinned Versions)
 # We use bun install -g. Since BUN_INSTALL is /usr/local, binaries should go to /usr/local/bin
-RUN bun install -g @anthropic-ai/claude-code
-RUN bun install -g @google/gemini-cli
-RUN bun install -g @qwen-code/qwen-code
-RUN bun install -g @kilocode/cli
-RUN bun install -g cline
-RUN bun install -g @blackbox_ai/blackbox-cli
+RUN bun install -g \
+    @anthropic-ai/claude-code@2.1.1 \
+    @google/gemini-cli@0.23.0 \
+    @qwen-code/qwen-code@0.6.1 \
+    @kilocode/cli@0.19.2 \
+    cline@1.0.8 \
+    @blackbox_ai/blackbox-cli@0.0.9
 
 # Install Qoder CLI
 # The official script installs to ~/.qoder. We'll install it and move it to global path.
@@ -58,7 +64,6 @@ RUN curl -fsSL https://qoder.com/install > install_qoder.sh && \
     ./install_qoder.sh || true
 
 # Find the binary in /root/.qoder/bin/qodercli (it might be a directory or file structure)
-# Based on logs: /root/.qoder/bin/qodercli/qodercli-[version]
 # We'll find the executable file 'qodercli' or similar within that structure and move it.
 RUN find /root/.qoder -type f -name "qodercli*" -executable -exec mv {} /usr/local/bin/qoder \; || \
     (echo "Qoder installation failed to produce binary" && exit 1)
