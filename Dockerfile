@@ -8,7 +8,7 @@ ENV PIPX_HOME=/usr/local/pipx
 ENV PIPX_BIN_DIR=/usr/local/bin
 
 # Install system dependencies
-# Added pipx for safe python tool installation
+# Removed python/pipx as we are using Bun for the OpenAI tool
 RUN apt-get update && apt-get install -y \
     curl \
     git \
@@ -20,8 +20,6 @@ RUN apt-get update && apt-get install -y \
     ca-certificates \
     wget \
     gnupg2 \
-    python3-pip \
-    pipx \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Bun
@@ -35,10 +33,6 @@ RUN mkdir -p -m 755 /etc/apt/keyrings && \
     apt-get update && \
     apt-get install -y acli && \
     rm -rf /var/lib/apt/lists/*
-
-# Install OpenAI CLI safely using pipx
-# This installs the 'openai' package into an isolated environment and exposes the binary
-RUN pipx install openai
 
 # Create 'dev' user with sudo access
 RUN useradd -m -s /bin/bash dev && \
@@ -55,7 +49,10 @@ RUN bun install -g \
     @qwen-code/qwen-code@0.6.1 \
     @kilocode/cli@0.19.2 \
     cline@1.0.8 \
-    @blackbox_ai/blackbox-cli@0.0.9
+    @blackbox_ai/blackbox-cli@0.0.9 \
+    @openai/codex@0.79.0
+
+# Install Qoder CLI
 
 # Install Qoder CLI
 # The official script installs to ~/.qoder. We'll install it and move it to global path.
