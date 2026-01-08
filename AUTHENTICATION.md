@@ -84,3 +84,17 @@ acli login
 ```
 Follow the interactive prompts or use the `acli profile` commands to manage multiple configurations.
 For more details, visit: https://acli.atlassian.com/
+
+## OpenAI CLI (Codex)
+
+The functionality of the legacy "Codex" models is now integrated into the standard OpenAI API.
+To authenticate the official `openai` CLI:
+
+```bash
+export OPENAI_API_KEY="your-api-key-here"
+```
+
+Then you can use it to interact with GPT-4/Turbo models for coding tasks:
+```bash
+openai api chat.completions.create -m gpt-4-turbo -g user "Write a binary search in Python"
+```

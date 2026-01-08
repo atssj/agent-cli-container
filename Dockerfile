@@ -17,6 +17,7 @@ RUN apt-get update && apt-get install -y \
     ca-certificates \
     wget \
     gnupg2 \
+    python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Bun
@@ -30,6 +31,9 @@ RUN mkdir -p -m 755 /etc/apt/keyrings && \
     apt-get update && \
     apt-get install -y acli && \
     rm -rf /var/lib/apt/lists/*
+
+# Install OpenAI CLI (formerly Codex)
+RUN pip3 install --break-system-packages openai
 
 # Create 'dev' user with sudo access
 RUN useradd -m -s /bin/bash dev && \
